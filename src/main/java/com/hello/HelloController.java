@@ -10,8 +10,4 @@ public class HelloController {
     public String index() {
         return "This is a test!";
     }
-
-    public void someMethod() {
-        
-    }
 }
