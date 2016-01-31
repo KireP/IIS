@@ -1,4 +1,4 @@
-package com.hello;
+package com.hello.controller;
 
 import com.hello.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HelloController {
+public class MainController {
 
     @Autowired
     private UserService userService;
@@ -29,5 +29,4 @@ public class HelloController {
         modelAndView.addObject("user", userService.findUser(1));
         return modelAndView;
     }
-
 }
