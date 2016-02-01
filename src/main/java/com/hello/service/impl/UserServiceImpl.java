@@ -13,11 +13,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
 
     @Override
-    public void create(User user) {
-        repository.save(user);
-    }
-
-    @Override
     public User findUser(Integer id) {
         return repository.findOne(id);
     }

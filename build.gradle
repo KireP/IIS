@@ -32,6 +32,7 @@ dependencies {
     compile 'org.springframework:spring-jdbc'
     compile 'com.h2database:h2'
     compile 'mysql:mysql-connector-java:5.1.16'
+    compile 'javax.servlet:jstl:1.2'
     //Required dependency for JSP
     providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
 }
