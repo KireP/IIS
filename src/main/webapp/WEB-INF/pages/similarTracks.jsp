@@ -9,7 +9,7 @@
 <table>
     <c:forEach items="${tracks}" var="track">
         <tr>
-            <td>${track}</td>
+            <td><a href="${track.url}">${track}</a></td>
         </tr>
     </c:forEach>
 </table>
