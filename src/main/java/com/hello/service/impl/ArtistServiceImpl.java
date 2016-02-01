@@ -1,4 +1,8 @@
 package com.hello.service.impl;
 
-public class ArtistServiceImpl {
+import com.hello.service.ArtistService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ArtistServiceImpl implements ArtistService {
 }

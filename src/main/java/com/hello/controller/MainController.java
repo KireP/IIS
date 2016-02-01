@@ -1,6 +1,7 @@
 package com.hello.controller;
 
 import com.hello.model.Track;
+import com.hello.service.TagSimilarityService;
 import com.hello.service.TrackService;
 import com.hello.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class MainController {
     @Autowired
     private TrackService trackService;
 
+    @Autowired
+    private TagSimilarityService tagSimilarityService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
@@ -41,6 +45,14 @@ public class MainController {
     @ResponseBody
     public List<Track> validTracksJson(@RequestParam String trackName) {
         return trackService.getTracksByName(trackName);
+    }
+
+    @RequestMapping(value = "/tagSimilarTracks", method = RequestMethod.GET)
+    public ModelAndView tagSimilarTracks(@RequestParam Integer trackID) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("similarTracks");
+        modelAndView.addObject("tracks", tagSimilarityService.getSimilarTracks(trackID));
+        return modelAndView;
     }
 
     // ############################################ Checking methods ##################################################

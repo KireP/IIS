@@ -6,18 +6,10 @@
     <title></title>
 </head>
 <body>
-<form method="get" action="tracksList">
-    <label>
-        Track name:
-        <input type="text" name="trackName"/>
-    </label>
-    <input type="submit" value="Submit"/>
-</form>
-
 <table>
     <c:forEach items="${tracks}" var="track">
         <tr>
-            <td><a href="tagSimilarTracks?trackID=${track.id}">${track}</a></td>
+            <td>${track}</td>
         </tr>
     </c:forEach>
 </table>
