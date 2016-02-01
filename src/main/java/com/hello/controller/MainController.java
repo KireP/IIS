@@ -44,6 +44,7 @@ public class MainController {
     @RequestMapping(value = "/tracksListJson", method = RequestMethod.GET)
     @ResponseBody
     public List<Track> validTracksJson(@RequestParam String trackName) {
+        System.out.println("request for track is obtained...");
         return trackService.getTracksByName(trackName);
     }
 
