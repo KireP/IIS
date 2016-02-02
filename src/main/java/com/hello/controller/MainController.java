@@ -44,7 +44,6 @@ public class MainController {
     @RequestMapping(value = "/tracksListJson", method = RequestMethod.GET)
     @ResponseBody
     public List<Track> validTracksJson(@RequestParam String trackName) {
-        System.out.println("request for track is obtained...");
         return trackService.getTracksByName(trackName);
     }
 
@@ -52,6 +51,7 @@ public class MainController {
     public ModelAndView tagSimilarTracks(@RequestParam Integer trackID) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("similarTracks");
+        modelAndView.addObject("queryTrack", trackService.findById(trackID));
         modelAndView.addObject("tracks", tagSimilarityService.getSimilarTracks(trackID));
         return modelAndView;
     }

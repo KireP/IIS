@@ -18,4 +18,9 @@ public class TrackServiceImpl implements TrackService {
     public List<Track> getTracksByName(String name) {
         return repository.findByNameContainingIgnoreCase(name);
     }
+
+    @Override
+    public Track findById(Integer id) {
+        return repository.findOne(id);
+    }
 }

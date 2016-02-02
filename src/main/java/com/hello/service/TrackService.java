@@ -7,4 +7,6 @@ import java.util.List;
 public interface TrackService {
 
     List<Track> getTracksByName(String name);
+
+    Track findById(Integer id);
 }
