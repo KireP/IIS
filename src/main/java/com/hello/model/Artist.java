@@ -3,7 +3,7 @@ package com.hello.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "artists")
+@Table(name = "artists_final")
 public class Artist {
 
     @Id
@@ -17,6 +17,8 @@ public class Artist {
 
     @Column(name = "artist_name")
     public String name;
+
+    public String image;
 
     public Artist() {
 
@@ -36,5 +38,9 @@ public class Artist {
 
     public String getName() {
         return name;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

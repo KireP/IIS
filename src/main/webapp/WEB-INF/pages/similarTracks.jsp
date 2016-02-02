@@ -9,7 +9,13 @@
 <table>
     <c:forEach items="${tracks}" var="track">
         <tr>
-            <td><a href="${track.url}">${track}</a></td>
+            <td>
+                <h3>${track.artist.name}</h3>
+                <a href="${track.artist.url}" title="${track.artist.name}">
+                    <img src="${track.artist.image}" alt="Image not available"/>
+                </a>
+            </td>
+            <td><a href="${track.url}">${track.name}</a></td>
         </tr>
     </c:forEach>
 </table>
