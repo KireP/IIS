@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Controller
@@ -34,6 +35,21 @@ public class MainController {
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/findSimilarities", method = RequestMethod.POST)
+    public ModelAndView getSimilarities(@RequestParam(value = "trackId") Integer[] trackIds ) {
+        System.out.println(Arrays.toString(trackIds));
+        List<Integer> trackIdsList = new ArrayList<Integer>();
+        for(Integer trackID : trackIds){
+            trackIdsList.add(trackID);
+        }
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("similarTracks");
+        List<Track> similarTracks = tagSimilarityService.getSimilarTracks(trackIdsList);
+        modelAndView.addObject("tracks", similarTracks);
+        System.out.println("Total tracks returned= "+similarTracks.size());
         return modelAndView;
     }
 

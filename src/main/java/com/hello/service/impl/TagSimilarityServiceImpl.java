@@ -21,4 +21,10 @@ public class TagSimilarityServiceImpl implements TagSimilarityService {
         List<TagSimilarity> tagSimilarities = repository.findByTrack1Id(trackID);
         return tagSimilarities.stream().map(similarity -> similarity.track2).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Track> getSimilarTracks(List<Integer> trackIds) {
+        List<TagSimilarity> tagSimilarities = repository.findByTrack1IdInOrderBySimilarityDesc(trackIds);
+        return tagSimilarities.stream().map(similarity -> similarity.track2).collect(Collectors.toList());
+    }
 }

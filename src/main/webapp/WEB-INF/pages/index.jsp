@@ -9,7 +9,6 @@
     <script>
         $(function () {
             $("#trackName").autocomplete({
-
                 source: function (request, response) {
                     $.ajax({
                         url: 'http://localhost:8080/tracksListJson?input=' + request.term,
@@ -31,7 +30,28 @@
                     event.preventDefault();
                     $("#trackName").val(ui.item.label);
                     var selectedTrackId = ui.item.value;
-                    window.location.href = 'http://localhost:8080/tagSimilarTracks?trackID=' + selectedTrackId;
+                    var shouldAppendSong = true;
+                    //window.location   .href = 'http://localhost:8080/tagSimilarTracks?trackID=' + selectedTrackId;
+                    $("#user_profile li").each(function(){
+                        var trackId = $(this).attr('id');
+                        if (trackId == selectedTrackId) {
+                            shouldAppendSong = false;
+                        }
+                    })
+                    var selectedTrackLi = $("<li>").text(ui.item.label).attr('id',selectedTrackId);
+                    if(shouldAppendSong) {
+                        $("#user_profile").append(selectedTrackLi);
+                        var inputHidden = $('<input />')
+                                .attr('type','hidden')
+                                .attr('name', 'trackId')
+                                .attr('value', selectedTrackId)
+                        $("#hidden_form").append(inputHidden);
+                    }
+                },
+
+                focus: function(event, ui) {
+                    event.preventDefault();
+                    $("#trackName").val(ui.item.label);
                 }
             });
         });
@@ -50,5 +70,13 @@
     Track name:
     <input id="trackName" type="text" name="trackName"/>
 </label>
+<div id="preferences" style="float:right">
+    <h4>Your profile</h4>
+    <ul id="user_profile"></ul>
+
+    <form method="post" action="/findSimilarities" id="hidden_form">
+        <input type="submit" value="Submit">
+    </form>
+</div>
 </body>
 </html>

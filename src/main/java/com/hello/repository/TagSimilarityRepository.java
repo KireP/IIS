@@ -8,4 +8,6 @@ import java.util.List;
 public interface TagSimilarityRepository extends JpaRepository<TagSimilarity, Integer> {
 
     List<TagSimilarity> findByTrack1Id(Integer id);
+
+    List<TagSimilarity> findByTrack1IdInOrderBySimilarityDesc(List<Integer> trackIds);
 }
