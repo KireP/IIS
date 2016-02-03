@@ -7,42 +7,31 @@
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
-        $(function (){
+        $(function () {
             $("#trackName").autocomplete({
 
-                source : function(request, response) {
+                source: function (request, response) {
                     $.ajax({
-
                         url: 'http://localhost:8080/tracksListJson?trackName=' + request.term,
                         dataType: "json",
-                        success: function(data) {
-                            response($.map(data, function(track) {
-                              return {
-                                  label: track.artist.name + ' - '+ track.name,
-                                  value: track.id
-                              }
-                            })
+                        success: function (data) {
+                            response($.map(data, function (track) {
+                                        return {
+                                            label: track.artist.name + ' - ' + track.name,
+                                            value: track.id
+                                        }
+                                    })
                             );
                         }
 
                     });
                 },
                 minLength: 4,
-                select: function(event, ui) {
+                select: function (event, ui) {
                     event.preventDefault();
                     $("#trackName").val(ui.item.label);
                     var selectedTrackId = ui.item.value;
-                    var requestUrl = 'http://localhost:8080/tagSimilarTracks?trackID=' + selectedTrackId;
-                    $.ajax({
-                        type : 'GET',
-                        url : requestUrl,
-                        dataType : 'html',
-                        success : function(data) {
-                            document.open();
-                            document.write(data);
-                            document.close();
-                        }
-                    });
+                    window.location.href = 'http://localhost:8080/tagSimilarTracks?trackID=' + selectedTrackId;
                 }
             });
         });
@@ -54,7 +43,7 @@
         }
     </style>
 
-    <title></title>
+    <title>Index</title>
 </head>
 <body>
 <form>
@@ -63,13 +52,5 @@
         <input id="trackName" type="text" name="trackName"/>
     </label>
 </form>
-
-<table>
-    <c:forEach items="${tracks}" var="track">
-        <tr>
-            <td><a href="tagSimilarTracks?trackID=${track.id}">${track}</a></td>
-        </tr>
-    </c:forEach>
-</table>
 </body>
 </html>
