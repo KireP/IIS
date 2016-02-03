@@ -46,11 +46,9 @@
     <title>Index</title>
 </head>
 <body>
-<form>
-    <label>
-        Track name:
-        <input id="trackName" type="text" name="trackName"/>
-    </label>
-</form>
+<label>
+    Track name:
+    <input id="trackName" type="text" name="trackName"/>
+</label>
 </body>
 </html>

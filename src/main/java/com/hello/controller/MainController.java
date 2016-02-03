@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -42,16 +41,35 @@ public class MainController {
     public ModelAndView validTracks(@RequestParam String input) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
-        Set<Integer> artists = artistService.getArtistsByName(input);
-        modelAndView.addObject("tracks", trackService.getTracksByNameOrArtist(input, artists));
+        modelAndView.addObject("tracks", getValidTracks(input));
         return modelAndView;
     }
 
     @RequestMapping(value = "/tracksListJson", method = RequestMethod.GET)
     @ResponseBody
     public List<Track> validTracksJson(@RequestParam String input) {
+        return getValidTracks(input);
+    }
+
+    private List<Track> getValidTracks(String input) {
         Set<Integer> artists = artistService.getArtistsByName(input);
-        return trackService.getTracksByNameOrArtist(input, artists);
+        List<Track> tracks = trackService.getTracksByNameOrArtist(input, artists);
+        List<Track> result = new ArrayList<>();
+        Map<Integer, Integer> artistCount = new HashMap<>();
+        for (Track track : tracks) {
+            Integer id = track.artist.id;
+            if (artistCount.containsKey(id)) {
+                if (artistCount.get(id) == 10) {
+                    continue;
+                }
+                artistCount.put(id, artistCount.get(id) + 1);
+                result.add(track);
+            } else {
+                artistCount.put(id, 1);
+                result.add(track);
+            }
+        }
+        return result;
     }
 
     @RequestMapping(value = "/tagSimilarTracks", method = RequestMethod.GET)
