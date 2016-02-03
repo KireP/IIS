@@ -40,16 +40,23 @@ public class MainController {
 
     @RequestMapping(value = "/findSimilarities", method = RequestMethod.POST)
     public ModelAndView getSimilarities(@RequestParam(value = "trackId") Integer[] trackIds ) {
-        System.out.println(Arrays.toString(trackIds));
-        List<Integer> trackIdsList = new ArrayList<Integer>();
-        for(Integer trackID : trackIds){
+
+        Set<Integer> trackIdsList = new HashSet<Integer>();
+        for(Integer trackID : trackIds) {
             trackIdsList.add(trackID);
+        }
+
+        List<Track> similarTracks = tagSimilarityService.getSimilarTracks(trackIdsList);
+
+        List<Track> tracksToReturn = new ArrayList<>();
+        for(Track track : similarTracks) {
+            if(trackIdsList.contains(track)) continue;
+            tracksToReturn.add(track);
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("similarTracks");
-        List<Track> similarTracks = tagSimilarityService.getSimilarTracks(trackIdsList);
-        modelAndView.addObject("tracks", similarTracks);
-        System.out.println("Total tracks returned= "+similarTracks.size());
+        modelAndView.addObject("tracks", tracksToReturn);
+        System.out.println("Total tracks returned= "+tracksToReturn.size());
         return modelAndView;
     }
 
