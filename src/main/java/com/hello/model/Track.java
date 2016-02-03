@@ -3,7 +3,7 @@ package com.hello.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tracks")
+@Table(name = "tracks_final")
 public class Track {
 
     @Id
@@ -21,6 +21,9 @@ public class Track {
     @ManyToOne
     @JoinColumn(name = "artist_id")
     public Artist artist;
+
+    @Column(name = "user_count")
+    public Integer userCount;
 
     public Track() {
 
@@ -44,6 +47,10 @@ public class Track {
 
     public Artist getArtist() {
         return artist;
+    }
+
+    public Integer getUserCount() {
+        return userCount;
     }
 
     @Override

@@ -12,7 +12,7 @@
 
                 source: function (request, response) {
                     $.ajax({
-                        url: 'http://localhost:8080/tracksListJson?trackName=' + request.term,
+                        url: 'http://localhost:8080/tracksListJson?input=' + request.term,
                         dataType: "json",
                         success: function (data) {
                             response($.map(data, function (track) {

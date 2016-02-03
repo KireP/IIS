@@ -29,9 +29,9 @@
                         </a>
                     </div>
                     <div class="panel-footer">
-                        <h4>Artist:
+                        <h5>Artist:
                             <a href="${track.artist.url}" target="_blank" class="text-success">${track.artist.name}</a>
-                        </h4>
+                        </h5>
                     </div>
                 </div>
             </div>

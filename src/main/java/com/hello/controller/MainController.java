@@ -1,6 +1,7 @@
 package com.hello.controller;
 
 import com.hello.model.Track;
+import com.hello.service.ArtistService;
 import com.hello.service.TagSimilarityService;
 import com.hello.service.TrackService;
 import com.hello.service.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class MainController {
@@ -26,6 +28,9 @@ public class MainController {
     @Autowired
     private TagSimilarityService tagSimilarityService;
 
+    @Autowired
+    private ArtistService artistService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
@@ -34,17 +39,19 @@ public class MainController {
     }
 
     @RequestMapping(value = "/tracksList", method = RequestMethod.GET)
-    public ModelAndView validTracks(@RequestParam String trackName) {
+    public ModelAndView validTracks(@RequestParam String input) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
-        modelAndView.addObject("tracks", trackService.getTracksByName(trackName));
+        Set<Integer> artists = artistService.getArtistsByName(input);
+        modelAndView.addObject("tracks", trackService.getTracksByNameOrArtist(input, artists));
         return modelAndView;
     }
 
     @RequestMapping(value = "/tracksListJson", method = RequestMethod.GET)
     @ResponseBody
-    public List<Track> validTracksJson(@RequestParam String trackName) {
-        return trackService.getTracksByName(trackName);
+    public List<Track> validTracksJson(@RequestParam String input) {
+        Set<Integer> artists = artistService.getArtistsByName(input);
+        return trackService.getTracksByNameOrArtist(input, artists);
     }
 
     @RequestMapping(value = "/tagSimilarTracks", method = RequestMethod.GET)
