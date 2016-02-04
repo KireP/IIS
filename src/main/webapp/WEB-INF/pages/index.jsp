@@ -21,8 +21,7 @@
                             response($.map(data, function (track) {
                                         return {
                                             label: track.artist.name + ' - ' + track.name,
-                                            value: track.id,
-                                            count: track.userCount
+                                            value: track.id
                                         }
                                     })
                             );
