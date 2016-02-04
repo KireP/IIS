@@ -11,5 +11,5 @@ public interface TagSimilarityRepository extends JpaRepository<TagSimilarity, In
 
     List<TagSimilarity> findByTrack1Id(Integer id);
 
-    List<TagSimilarity> findByTrack1IdInOrderBySimilarityDesc(Collection<Integer> trackIds);
+    List<TagSimilarity> findByTrack1IdIn(Collection<Integer> trackIds);
 }

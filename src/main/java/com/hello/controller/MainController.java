@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Controller
@@ -39,24 +38,23 @@ public class MainController {
     }
 
     @RequestMapping(value = "/findSimilarities", method = RequestMethod.POST)
-    public ModelAndView getSimilarities(@RequestParam(value = "trackId") Integer[] trackIds ) {
-
-        Set<Integer> trackIdsList = new HashSet<Integer>();
-        for(Integer trackID : trackIds) {
-            trackIdsList.add(trackID);
+    public ModelAndView getSimilarities(@RequestParam(value = "trackId", required = false) Integer[] trackIds) {
+        if (trackIds == null) {
+            return new ModelAndView("redirect:/");
         }
 
-        List<Track> similarTracks = tagSimilarityService.getSimilarTracks(trackIdsList);
-
+        Set<Integer> trackIdsSet = new HashSet<>();
+        Collections.addAll(trackIdsSet, trackIds);
+        List<Track> similarTracks = tagSimilarityService.getSimilarTracks(trackIdsSet);
         List<Track> tracksToReturn = new ArrayList<>();
-        for(Track track : similarTracks) {
-            if(trackIdsList.contains(track)) continue;
+        for (Track track : similarTracks) {
+            if (trackIdsSet.contains(track.id)) continue;
             tracksToReturn.add(track);
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("similarTracks");
+        modelAndView.addObject("queryTracks", trackService.findAllById(trackIdsSet));
         modelAndView.addObject("tracks", tracksToReturn);
-        System.out.println("Total tracks returned= "+tracksToReturn.size());
         return modelAndView;
     }
 
