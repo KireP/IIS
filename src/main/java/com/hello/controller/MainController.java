@@ -122,7 +122,7 @@ public class MainController {
         return modelAndView;
     }
 
-    private List<TrackDTO> normalizeSimilarities(List<CollaborativeSimilarity> colaborativeSimilarities) {
+    private List<TrackDTO> normalizeSimilarities(List<CollaborativeSimilarity> collaborativeSimilarities) {
 
         Map<Integer, Map<Integer, Double>> similaritiesForSongs = Maps.newHashMap();
 
@@ -130,7 +130,7 @@ public class MainController {
 
         Map<Integer, Track> idToTrack = Maps.newHashMap();
 
-        for (CollaborativeSimilarity collaborativeSimilarity : colaborativeSimilarities) {
+        for (CollaborativeSimilarity collaborativeSimilarity : collaborativeSimilarities) {
             int songToFindSimilarities = collaborativeSimilarity.getTrack1().getId();
 
             if (!similaritiesForSongs.containsKey(songToFindSimilarities)) {
