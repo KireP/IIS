@@ -33,6 +33,7 @@ dependencies {
     compile 'com.h2database:h2'
     compile 'mysql:mysql-connector-java:5.1.16'
     compile 'javax.servlet:jstl:1.2'
+    compile group: 'com.google.guava', name: 'guava', version: '12.0'
     //Required dependency for JSP
     providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
 }

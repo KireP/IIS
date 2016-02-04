@@ -20,21 +20,21 @@
     <br/>
 
     <div class="row">
-        <c:forEach items="${tracks}" var="track">
+        <c:forEach items="${trackDTOs}" var="trackDTO">
 
             <div class="col-md-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4><a href="${track.url}" target="_blank" style="color: white">${track.name}</a></h4>
+                        <h4><a href="${trackDTO.track.url}" target="_blank" style="color: white">${trackDTO.track.name}</a></h4>
                     </div>
                     <div class="panel-body">
-                        <a href="${track.artist.image}" title="${track.artist.name}" target="_blank">
-                            <img src="${track.artist.image}" alt="Image not available"/>
+                        <a href="${trackDTO.track.artist.image}" title="${trackDTO.track.artist.name}" target="_blank">
+                            <img src="${trackDTO.track.artist.image}" alt="Image not available"/>
                         </a>
                     </div>
                     <div class="panel-footer">
                         <h5>Artist:
-                            <a href="${track.artist.url}" target="_blank" class="text-success">${track.artist.name}</a>
+                            <a href="${trackDTO.track.artist.url}" target="_blank" class="text-success">${trackDTO.track.artist.name}</a>
                         </h5>
                     </div>
                 </div>
