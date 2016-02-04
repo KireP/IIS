@@ -89,7 +89,7 @@
             <ul id="user_profile" class="list-group"></ul>
 
             <form method="post" action="findSimilarities" id="hidden_form">
-                <input type="submit" value="Submit" class="btn btn-success">
+                <input type="submit" value="Get recommendations" class="btn btn-success">
             </form>
         </div>
     </div>
