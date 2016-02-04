@@ -4,7 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.hello.model.ColaborativeSimilarity;
+import com.hello.model.CollaborativeSimilarity;
 import com.hello.model.Track;
 import com.hello.model.TrackDTO;
 import com.hello.service.*;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 @Controller
@@ -51,7 +50,7 @@ public class MainController {
         }
         Set<Integer> trackIdsSet = new HashSet<>();
         Collections.addAll(trackIdsSet, trackIds);
-        List<ColaborativeSimilarity> collaborativeSimilarities = collaborativeSimilarityService.getSimilarTracks(trackIdsSet);
+        List<CollaborativeSimilarity> collaborativeSimilarities = collaborativeSimilarityService.getSimilarTracks(trackIdsSet);
 
         List<TrackDTO> orderedSimilarTracks = normalizeSimilarities(collaborativeSimilarities);
 
@@ -123,45 +122,45 @@ public class MainController {
         return modelAndView;
     }
 
-    private List<TrackDTO> normalizeSimilarities(List<ColaborativeSimilarity> colaborativeSimilarities) {
+    private List<TrackDTO> normalizeSimilarities(List<CollaborativeSimilarity> colaborativeSimilarities) {
 
-        Map<Integer,Map<Integer, Double>> similaritiesForSongs = Maps.newHashMap();
+        Map<Integer, Map<Integer, Double>> similaritiesForSongs = Maps.newHashMap();
 
-        ListMultimap<Integer,Integer> songToGroups = ArrayListMultimap.create();
+        ListMultimap<Integer, Integer> songToGroups = ArrayListMultimap.create();
 
         Map<Integer, Track> idToTrack = Maps.newHashMap();
 
-        for(ColaborativeSimilarity colaborativeSimilarity : colaborativeSimilarities) {
-            int songToFindSimilarities = colaborativeSimilarity.getTrack1().getId();
+        for (CollaborativeSimilarity collaborativeSimilarity : colaborativeSimilarities) {
+            int songToFindSimilarities = collaborativeSimilarity.getTrack1().getId();
 
             if (!similaritiesForSongs.containsKey(songToFindSimilarities)) {
-                Map<Integer,Double> similaritiesForSong = Maps.newHashMap();
-                similaritiesForSongs.put(songToFindSimilarities,similaritiesForSong);
+                Map<Integer, Double> similaritiesForSong = Maps.newHashMap();
+                similaritiesForSongs.put(songToFindSimilarities, similaritiesForSong);
             }
-            Map<Integer,Double> similaritiesForSong = similaritiesForSongs.get(songToFindSimilarities);
+            Map<Integer, Double> similaritiesForSong = similaritiesForSongs.get(songToFindSimilarities);
 
-            Integer trackId2 = colaborativeSimilarity.getTrack2().getId();
-            similaritiesForSong.put(trackId2, colaborativeSimilarity.getSimilarity());
-            songToGroups.put(trackId2,songToFindSimilarities);
+            Integer trackId2 = collaborativeSimilarity.getTrack2().getId();
+            similaritiesForSong.put(trackId2, collaborativeSimilarity.getSimilarity());
+            songToGroups.put(trackId2, songToFindSimilarities);
 
-            idToTrack.put(trackId2, colaborativeSimilarity.getTrack2());
+            idToTrack.put(trackId2, collaborativeSimilarity.getTrack2());
         }
 
         Map<Integer, Map<Integer, Double>> similaritiesForSongNormalized = maxMinNormalize(similaritiesForSongs);
 
         List<TrackDTO> result = Lists.newArrayList();
 
-        for(Integer similarTrackId : songToGroups.keySet()) {
-            List<Integer> preferencedTrackIds = songToGroups.get(similarTrackId);
+        for (Integer similarTrackId : songToGroups.keySet()) {
+            List<Integer> preferredTrackIds = songToGroups.get(similarTrackId);
 
             double totalSimilarity = 0.0;
-            for(Integer preferenceTrack : preferencedTrackIds) {
+            for (Integer preferenceTrack : preferredTrackIds) {
                 totalSimilarity += similaritiesForSongNormalized.get(preferenceTrack).get(similarTrackId);
             }
 
-            totalSimilarity/=preferencedTrackIds.size();
+            totalSimilarity /= preferredTrackIds.size();
 
-            TrackDTO trackDTO = new TrackDTO(idToTrack.get(similarTrackId),totalSimilarity);
+            TrackDTO trackDTO = new TrackDTO(idToTrack.get(similarTrackId), totalSimilarity);
             result.add(trackDTO);
         }
 
@@ -172,22 +171,22 @@ public class MainController {
     private Map<Integer, Map<Integer, Double>> maxMinNormalize(Map<Integer, Map<Integer, Double>> similaritiesForSongs) {
         Map<Integer, Map<Integer, Double>> songSimilarityValuesNormalized = Maps.newHashMap();
 
-        for(Map.Entry<Integer,Map<Integer,Double>> songSimilarityValues : similaritiesForSongs.entrySet()) {
+        for (Map.Entry<Integer, Map<Integer, Double>> songSimilarityValues : similaritiesForSongs.entrySet()) {
             int trackId = songSimilarityValues.getKey();
-            Map<Integer,Double> similarSongsValues = songSimilarityValues.getValue();
+            Map<Integer, Double> similarSongsValues = songSimilarityValues.getValue();
 
             double max = findMax(similarSongsValues.values());
             double min = findMin(similarSongsValues.values());
 
-            Map<Integer,Double> similarSongsValuesNormalized = Maps.newHashMap();
+            Map<Integer, Double> similarSongsValuesNormalized = Maps.newHashMap();
 
-            for(Integer key : similarSongsValues.keySet()) {
+            for (Integer key : similarSongsValues.keySet()) {
                 double similarityValue = similarSongsValues.get(key);
-                similarityValue = (similarityValue - min)/(max - min);
+                similarityValue = (similarityValue - min) / (max - min);
                 similarSongsValuesNormalized.put(key, similarityValue);
             }
 
-            songSimilarityValuesNormalized.put(trackId,similarSongsValuesNormalized);
+            songSimilarityValuesNormalized.put(trackId, similarSongsValuesNormalized);
         }
         return songSimilarityValuesNormalized;
     }
@@ -195,8 +194,8 @@ public class MainController {
     private double findMax(Collection<Double> values) {
         double max = Double.MIN_VALUE;
 
-        for(Double value : values) {
-            if(Double.compare(value, max) > 0){
+        for (Double value : values) {
+            if (Double.compare(value, max) > 0) {
                 max = value;
             }
         }
@@ -206,8 +205,8 @@ public class MainController {
     private double findMin(Collection<Double> values) {
         double min = Double.MAX_VALUE;
 
-        for(Double value : values) {
-            if (Double.compare(value, min) < 0){
+        for (Double value : values) {
+            if (Double.compare(value, min) < 0) {
                 min = value;
             }
         }

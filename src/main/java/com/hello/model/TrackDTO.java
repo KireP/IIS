@@ -1,9 +1,6 @@
 package com.hello.model;
 
-/**
- * Created by Ivica on 2/4/2016.
- */
-public class TrackDTO implements Comparable<TrackDTO>{
+public class TrackDTO implements Comparable<TrackDTO> {
 
     private Track track;
     private double similarity;

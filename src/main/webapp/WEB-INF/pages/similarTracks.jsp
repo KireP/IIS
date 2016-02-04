@@ -25,16 +25,17 @@
             <div class="col-md-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h4><a href="${trackDTO.track.url}" target="_blank" style="color: white">${trackDTO.track.name}</a></h4>
+                        <h4><a href="${trackDTO.track.url}" target="_blank"
+                               style="color: white">${trackDTO.track.name}</a></h4>
                     </div>
                     <div class="panel-body">
                         <a href="${trackDTO.track.artist.image}" title="${trackDTO.track.artist.name}" target="_blank">
                             <img src="${trackDTO.track.artist.image}" alt="Image not available"/>
                         </a>
                     </div>
-                    <div class="panel-footer">
-                        <h5>Artist:
-                            <a href="${trackDTO.track.artist.url}" target="_blank" class="text-success">${trackDTO.track.artist.name}</a>
+                    <div class=
+                                 <h5>Artist:
+                        <a href="${trackDTO.track.artist.url}" tt-success">${trackDTO.track.artist.name}</a>
                         </h5>
                     </div>
                 </div>

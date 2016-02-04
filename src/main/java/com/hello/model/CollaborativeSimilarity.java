@@ -3,8 +3,8 @@ package com.hello.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "colaborative_similarities")
-public class ColaborativeSimilarity {
+@Table(name = "collaborative_similarities")
+public class CollaborativeSimilarity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class ColaborativeSimilarity {
 
     public Double similarity;
 
-    public ColaborativeSimilarity() {
+    public CollaborativeSimilarity() {
 
     }
 
