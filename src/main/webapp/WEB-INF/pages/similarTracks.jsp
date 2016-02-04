@@ -33,9 +33,10 @@
                             <img src="${trackDTO.track.artist.image}" alt="Image not available"/>
                         </a>
                     </div>
-                    <div class=
-                                 <h5>Artist:
-                        <a href="${trackDTO.track.artist.url}" tt-success">${trackDTO.track.artist.name}</a>
+                    <div class="panel-footer">
+                        <h5>Artist:
+                            <a href="${trackDTO.track.artist.url}" target="_blank"
+                               class="text-success"><b>${trackDTO.track.artist.name}</b></a>
                         </h5>
                     </div>
                 </div>
