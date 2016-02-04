@@ -21,7 +21,8 @@
                             response($.map(data, function (track) {
                                         return {
                                             label: track.artist.name + ' - ' + track.name,
-                                            value: track.id
+                                            value: track.id,
+                                            count: track.userCount
                                         }
                                     })
                             );
@@ -35,20 +36,20 @@
                     $("#trackName").val("");
                     var selectedTrackId = ui.item.value;
                     var shouldAppendSong = true;
-                    // window.location.href = 'http://localhost:8080/tagSimilarTracks?trackID=' + selectedTrackId;
                     $("#user_profile li").each(function () {
                         var trackId = $(this).attr('id');
                         if (trackId == selectedTrackId) {
                             shouldAppendSong = false;
                         }
                     });
-                    var selectedTrackLi = $("<li>").text(ui.item.label).attr('id', selectedTrackId);
+                    var selectedTrackLi = $("<li class='list-group-item'>").text(ui.item.label);
                     if (shouldAppendSong) {
                         $("#user_profile").append(selectedTrackLi);
+
                         var inputHidden = $('<input />')
                                 .attr('type', 'hidden')
                                 .attr('name', 'trackId')
-                                .attr('value', selectedTrackId)
+                                .attr('value', selectedTrackId);
                         $("#hidden_form").append(inputHidden);
                     }
                 },
@@ -68,18 +69,31 @@
     </style>
 </head>
 <body>
-<label>
-    Track name:
-    <input id="trackName" type="text" name="trackName"/>
-</label>
+<div class="container" style="padding-top: 10px">
+    <div class="row">
+        <div class="jumbotron">
+            <h1 class="text-center">Track recommendation system</h1>
+            <br/>
 
-<div id="preferences" style="float:right">
-    <h4>Your profile</h4>
-    <ul id="user_profile"></ul>
+            <p>
+                Enter your favourite tracks below and find their similar.
+            </p>
+        </div>
+        <label class="col-md-4">
+            Track:
+            <input id="trackName" type="text" name="trackName" class="form-control" placeholder="Enter a track"/>
+        </label>
 
-    <form method="post" action="findSimilarities" id="hidden_form">
-        <input type="submit" value="Submit">
-    </form>
+        <div class="col-md-4"></div>
+        <div id="preferences" class="col-md-4">
+            <h2>Your profile</h2>
+            <ul id="user_profile" class="list-group"></ul>
+
+            <form method="post" action="findSimilarities" id="hidden_form">
+                <input type="submit" value="Submit" class="btn btn-success">
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>
