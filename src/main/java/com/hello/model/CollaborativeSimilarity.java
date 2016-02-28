@@ -22,6 +22,7 @@ public class CollaborativeSimilarity {
 
     public CollaborativeSimilarity() {
 
+
     }
 
     public Integer getId() {

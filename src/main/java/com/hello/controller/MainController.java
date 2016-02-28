@@ -22,13 +22,7 @@ import java.util.*;
 public class MainController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private TrackService trackService;
-
-    @Autowired
-    private TagSimilarityService tagSimilarityService;
 
     @Autowired
     private ArtistService artistService;
@@ -96,14 +90,6 @@ public class MainController {
         return result;
     }
 
-    @RequestMapping(value = "/tagSimilarTracks", method = RequestMethod.GET)
-    public ModelAndView tagSimilarTracks(@RequestParam Integer trackID) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("similarTracks");
-        modelAndView.addObject("queryTrack", trackService.findById(trackID));
-        modelAndView.addObject("tracks", tagSimilarityService.getSimilarTracks(trackID));
-        return modelAndView;
-    }
 
     // ############################################ Checking methods ##################################################
     @RequestMapping(value = "/greeting", method = RequestMethod.GET)
@@ -111,14 +97,6 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("greetings");
         modelAndView.addObject("name", name);
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public ModelAndView getUser() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("userDetails");
-        modelAndView.addObject("user", userService.findUser(1));
         return modelAndView;
     }
 
